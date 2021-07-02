@@ -6,9 +6,9 @@ import { withRouter } from 'react-router-dom';
 const Layout = ({ children, location, ...rest }) => {
   return (
     <React.Fragment>
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-xl-10 col-lg-12 col-md-9">
+      <div className="container">
+        <div className="row justify-content-center">
+          <div className="col-xl-10 col-lg-12 col-md-9">
             {children}
           </div>
         </div>

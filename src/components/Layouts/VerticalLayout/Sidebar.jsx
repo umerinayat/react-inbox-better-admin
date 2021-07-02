@@ -39,11 +39,41 @@ const Sidebar = () => {
         </div>
       </li>
 
-      <hr className="sidebar-divider d-none d-md-block" />
+      {/* Warm Up Domain */}
+      <li className="nav-item">
+        <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#warmUpDomain" aria-expanded="true" aria-controls="warmUpDomain">
+          <i class="fas fa-server"></i>
+          <span>Warmp Up Domains</span>
+        </a>
+        <div id="warmUpDomain" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div className="bg-white py-2 collapse-inner rounded">
+            <h6 className="collapse-header">Manage Warmup Domain:</h6>
+            <a className="collapse-item" href="#users">Domains</a>
+            <a className="collapse-item" href="#users">Domains Email Accounts</a>
+            <a className="collapse-item" href="#users">System Email Accounts</a>
+          </div>
+        </div>
+      </li>
 
-      <div className="text-center d-none d-md-inline">
+      <hr className="sidebar-divider d-none d-md-block" />
+      {/* System Settings */}
+      <li className="nav-item">
+        <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#manageSettings" aria-expanded="true" aria-controls="manageSettings">
+          <i className="fas fa-fw fa-cog"></i>
+          <span>System Settings</span>
+        </a>
+        <div id="manageSettings" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div className="bg-white py-2 collapse-inner rounded">
+            <h6 className="collapse-header">Manage Settings:</h6>
+            <a className="collapse-item" href="#users">Packages</a>
+          </div>
+        </div>
+      </li>
+
+
+      {/* <div className="text-center d-none d-md-inline">
         <button className="rounded-circle border-0" id="sidebarToggle"></button>
-      </div>
+      </div> */}
 
     </ul>
     )

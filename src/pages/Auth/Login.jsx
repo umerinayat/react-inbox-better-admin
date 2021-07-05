@@ -1,19 +1,38 @@
 import React, { useEffect, useState } from 'react';
 
+import { login } from '../../api-services/loginService';
+
 const Login = () => {
   const [loginForm, setLoginForm] = useState({
-    email: 'example@test.com',
-    password: 'password',
+    email: '',
+    password: '',
   });
+  const [error, setError] = useState(null);
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const handleLoginFormChange = (event) => {
     const {name, value} = event.target;
     setLoginForm({...loginForm, [name]: value})
   }
 
-  const handleUserLogin = (event) => {
+  const handleUserLogin = async (event) => {
     event.preventDefault();
-    
+    setLoading(true);
+    try {
+        const response = await login(loginForm);
+    } catch (e) {
+      if (e.response.status == 422) {
+        const errors = e.response.data.errors;
+        console.log(errors);
+        setErrors(errors);
+      } else {
+          setError(e);
+      }
+    } finally {
+        setLoading(false);
+    }
+
     // dispatch Login action
   }
 
@@ -40,6 +59,7 @@ const Login = () => {
                     placeholder="Email *"
                     required
                   />
+                   { errors.hasOwnProperty('email') ? errors.email.map(e => (<span className="text-danger mt-1 ml-1"> {e} </span>)) : ''}
                 </div>
                 <div className="form-group">
                   <input
@@ -52,6 +72,7 @@ const Login = () => {
                   />
                 </div>
                 <button
+                  disabled={loading}
                   type="submit"
                   className="btn btn-primary btn-user btn-block"
                 >

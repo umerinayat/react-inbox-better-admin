@@ -1,22 +1,23 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
     <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
       
-      <a className="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+      <Link className="sidebar-brand d-flex align-items-center justify-content-center" to="/dashboard">
         <div className="sidebar-brand-icon">
         <i class="fas fa-envelope-square"></i>
         </div>
         <div className="sidebar-brand-text mx-3">Inbox Better</div>
-      </a>
+      </Link>
 
       <hr className="sidebar-divider my-0" />
       
       <li className="nav-item active">
-        <a className="nav-link" href="/dashboard">
+      <Link className="nav-link" to="/dashboard">
           <i className="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span></a>
+          <span>Dashboard</span></Link>
       </li>
 
     
@@ -34,7 +35,7 @@ const Sidebar = () => {
         <div id="manageUsers" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div className="bg-white py-2 collapse-inner rounded">
             <h6 className="collapse-header">Manage Users:</h6>
-            <a className="collapse-item" href="#users">All Users</a>
+            <Link className="collapse-item" to="/users">All Users</Link>
           </div>
         </div>
       </li>

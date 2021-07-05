@@ -4,7 +4,6 @@ const baseUrl = process.env.REACT_APP_INBOX_BETTER_API_URL;
 
 // axios.defaults.withCredentials = true;
 
-
 // login
 const login = async (loginForm) => {
     try {

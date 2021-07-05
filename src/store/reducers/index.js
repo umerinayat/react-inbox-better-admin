@@ -1,14 +1,11 @@
 import { combineReducers } from 'redux';
 
-// import employees from './employeeReducer';
-// import departments from './departmentReducer';
 import apiCallsInProgress from './apiCallStatusReducer';
-
+import authReducer from './auth';
 
 
 const rootReducer = combineReducers({
-    // employees,
-    // departments,
+    authReducer,
     apiCallsInProgress
 });
 

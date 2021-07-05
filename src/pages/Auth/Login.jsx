@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-import { login } from '../../api-services/loginService';
+import { login } from '../../store/actions/auth';
 
-const Login = () => {
+const Login = ({ history }) => {
+  const dispatch = useDispatch();
   const [loginForm, setLoginForm] = useState({
     email: '',
     password: '',
@@ -12,29 +15,27 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
 
   const handleLoginFormChange = (event) => {
-    const {name, value} = event.target;
-    setLoginForm({...loginForm, [name]: value})
-  }
+    const { name, value } = event.target;
+    setLoginForm({ ...loginForm, [name]: value });
+  };
 
   const handleUserLogin = async (event) => {
     event.preventDefault();
     setLoading(true);
     try {
-        const response = await login(loginForm);
+      // dispatch Login action
+      await dispatch(login(loginForm, history));
     } catch (e) {
       if (e.response.status == 422) {
         const errors = e.response.data.errors;
-        console.log(errors);
         setErrors(errors);
       } else {
-          setError(e);
+        setError(e);
       }
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
-
-    // dispatch Login action
-  }
+  };
 
   return (
     <div className="card o-hidden border-0 shadow-lg my-5">
@@ -44,7 +45,9 @@ const Login = () => {
           <div className="col-lg-6">
             <div className="p-5">
               <div className="text-center">
-                <h1 className="h2 text-gray-900 mb-4"><strong>Inbox Better</strong></h1>
+                <h1 className="h2 text-gray-900 mb-4">
+                  <strong>Inbox Better</strong>
+                </h1>
               </div>
               <div className="text-center">
                 <h1 className="h4 text-gray-900 mb-4">Admin Login</h1>
@@ -59,7 +62,11 @@ const Login = () => {
                     placeholder="Email *"
                     required
                   />
-                   { errors.hasOwnProperty('email') ? errors.email.map(e => (<span className="text-danger mt-1 ml-1"> {e} </span>)) : ''}
+                  {errors.hasOwnProperty('email')
+                    ? errors.email.map((e) => (
+                        <span className="text-danger mt-1 ml-1"> {e} </span>
+                      ))
+                    : ''}
                 </div>
                 <div className="form-group">
                   <input

@@ -49,9 +49,9 @@ const Sidebar = () => {
         <div id="warmUpDomain" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div className="bg-white py-2 collapse-inner rounded">
             <h6 className="collapse-header">Manage Warmup Domain:</h6>
-            <a className="collapse-item" href="#users">Domains</a>
-            <a className="collapse-item" href="#users">Domains Email Accounts</a>
-            <a className="collapse-item" href="#users">System Email Accounts</a>
+            <Link className="collapse-item" to="/warm-up/domains">Domains</Link>
+            <Link className="collapse-item" to="/warm-up/domain-email-accounts">Domains Email Accounts</Link>
+            <Link className="collapse-item" to="/warm-up/system-email-accounts">System Email Accounts</Link>
           </div>
         </div>
       </li>
@@ -66,7 +66,7 @@ const Sidebar = () => {
         <div id="manageSettings" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div className="bg-white py-2 collapse-inner rounded">
             <h6 className="collapse-header">Manage Settings:</h6>
-            <a className="collapse-item" href="#users">Packages</a>
+            <Link className="collapse-item" to="/settings/packages">Packages</Link>
           </div>
         </div>
       </li>

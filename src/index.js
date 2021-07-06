@@ -3,9 +3,13 @@ import ReactDOM from 'react-dom';
 import App from './App';
 // import reportWebVitals from './reportWebVitals';
 
+import { initializeIcons } from '@fluentui/font-icons-mdl2';
+
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store";
+
+initializeIcons();
 
 ReactDOM.render(
   <React.StrictMode>

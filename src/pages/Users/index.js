@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { IIconProps } from '@fluentui/react';
 import { DefaultButton, ActionButton } from '@fluentui/react/lib/Button';
-import { Panel } from '@fluentui/react/lib/Panel';
+import { Panel, PanelType } from '@fluentui/react/lib/Panel';
 import { ProgressIndicator } from '@fluentui/react/lib/ProgressIndicator';
 import { TooltipHost, ITooltipHostStyles } from '@fluentui/react/lib/Tooltip';
 import { useBoolean, useId } from '@fluentui/react-hooks';
-
 
 import UserService from '../../api-services/userService';
 
@@ -20,6 +19,13 @@ const hostStyles = { root: { display: 'inline-block' } };
 
 const Users = () => {
   const [users, setUsers] = useState([]);
+  const [userForm, setUserForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    is_admin: false,
+    is_suspended: false
+  });
   const [error, setError] = useState(null);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(true);
@@ -70,6 +76,33 @@ const Users = () => {
     );
   }
 
+  const handleUserFormChange = (event) => {
+      event.preventDefault();
+      const target = event.target;
+      const value = target.type === 'checkbox' ? target.checked : target.value;
+      const name = target.name;
+      setUserForm({ ...userForm, [name]: value });
+  }
+
+  const handleAddNewUser = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    try {
+      // create new user call
+      const response = await UserService.addNewUser(userForm);
+      debugger
+    } catch (e) {
+      if (e.response.status == 422) {
+        const errors = e.response.data.errors;
+        setErrors(errors);
+      } else {
+        setError(e);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <React.Fragment>
       <div class="card shadow mb-4">
@@ -79,15 +112,14 @@ const Users = () => {
               <h4 class="m-0 font-weight-bold text-primary">Users</h4>
             </div>
             <div class="col-sm-6 text-right">
-            <TooltipHost
+              <TooltipHost
                 content="Add New User into System"
                 // This id is used on the tooltip itself, not the host
                 // (so an element with this id only exists when the tooltip is shown)
                 id={tooltipId}
                 calloutProps={calloutProps}
                 styles={hostStyles}
-            >
-
+              >
                 <ActionButton
                   onClick={openPanel}
                   iconProps={addFriendIcon}
@@ -134,16 +166,103 @@ const Users = () => {
           </div>
         </div>
       </div>
-     
-        <Panel
-          headerText="Sample panel"
-          isOpen={isOpen}
-          onDismiss={dismissPanel}
-          // You MUST provide this prop! Otherwise screen readers will just say "button" with no label.
-          closeButtonAriaLabel="Close"
-        >
-          <p>Content goes here.</p>
-        </Panel>
+
+      <Panel
+        headerText="Add New User"
+        isOpen={isOpen}
+        onDismiss={dismissPanel}
+        type={PanelType.extraLarge}
+        closeButtonAriaLabel="Close"
+      >
+        <form onSubmit={handleAddNewUser}>
+          <div className="row p-3">
+            <div className="col-sm-7">
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="name">Full Name *</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter Full Name.."
+                    name="name"
+                    required
+                    onChange={handleUserFormChange}
+                  />
+                </div>
+              </div>
+              {/* Email & Password */}
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="email">Email *</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    placeholder="Email"
+                    name="email"
+                    required
+                    onChange={handleUserFormChange}
+                  />
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="password">Password *</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    placeholder="Password"
+                    name="password"
+                    required
+                    onChange={handleUserFormChange}
+                  />
+                </div>
+              </div>
+              <div className="form-row mt-3">
+                <div class="form-group col-sm-3">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      name="is_admin"
+                      checked={userForm.is_admin}
+                      onChange={handleUserFormChange}
+                    />
+                    <label class="form-check-label" for="gridCheck">
+                      Is Super Admin?
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group col-sm-3">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      name="is_suspended"
+                      checked={userForm.is_suspended}
+                      onChange={handleUserFormChange}
+                    />
+                    <label class="form-check-label" for="gridCheck">
+                      Is Suspended?
+                    </label>
+                  </div>
+                </div>
+              </div>
+              
+                <div className="form-group mt-4">
+                  <button type="submit" className="btn btn-sm btn-primary w-25">
+                      Add 
+                  </button>
+                </div>
+                
+            </div>
+            {/* Image Avatar */}
+            {/* <div className="col-sm-5 text-center">
+              <div>
+                  <label for="avatar">Profile Avatar</label>
+              </div> 
+              <img src="https://i.pravatar.cc/150" class="rounded-circle mt-4" alt="user-avatar" width="150" height="150" /> 
+            </div> */}
+          </div>
+        </form>
+      </Panel>
     </React.Fragment>
   );
 };
